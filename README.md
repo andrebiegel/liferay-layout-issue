@@ -1,7 +1,31 @@
 # liferay-layout-issue
 
- When trying to  add layouts in liferay concurrently a StaleObjectExceoption Occurs: 
+ When trying to concurrently add layouts in liferay dxp a StaleObjectExceoption occurs: 
  
+ env DXP SP6 , Fixpack-de 40
+ 
+The context is a parallel import of liferay layouts through a liferay portlet; build with spring/osgi. When executing it in Liferay dxp, the api call to add a Layout throws a StaleObjectStateException. 
+
+_This repository contains a maven osgi portlet to reproduce the exception._
+
+This exception occurs when the api internally does an update on the corresponding LayoutSet (updating the PageCount for that Group, where the layout has been added to, just a single moment ago).
+
+This does not happen in a single threaded execution!
+
+
+## Actions
+
+* Firstly i synchronized that call .. without any better results
+* meanwhile i read something about, that only synchronizing the threading won´t help, because the transaction itself may not be inside the synchronized execution block. therefore i also added a transactional annotation. .. without better results
+
+so far i gained the following insight:
+
+* there is a Bug in the LayoutSetLocalService.updatePageCount(): the updated LayoutSet is not returned .. therefore the (with Liferay 7/DXP introduced) mvcc Version of the LayoutSet is not incremented. .. but this should not have any influences on my situation (https://github.com/liferay/liferay-portal/blob/7eb86ce5f6a7b2c9a405853a20fe81592e639219/portal-impl/src/com/liferay/portal/service/impl/LayoutSetLocalServiceImpl.java).
+
+## Question: 
+
+* is this a consequence of the optimistic locking and i have to live with that? did i missed a puzzle when creating the threads ? maybe some weird .. configurate my hibernate session ... thing ? is possible to add layouts concurrently ? 
+  
  SO Entry Reference : https://stackoverflow.com/questions/50528192/concurrent-api-layoutlocalservice-addlayout-throws-staleobjectstateexception-in
 
 ```
