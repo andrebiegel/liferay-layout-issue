@@ -2,7 +2,7 @@
 
  When trying to concurrently add layouts in liferay dxp a StaleObjectExceoption occurs: 
  
- env DXP SP6 , Fixpack-de 40
+ env: DXP SP6 , Fixpack-de 40
  
 The context is a parallel import of liferay layouts through a liferay portlet; build with spring/osgi. When executing it in Liferay dxp, the api call to add a Layout throws a StaleObjectStateException. 
 
@@ -24,7 +24,7 @@ so far i gained the following insight:
 
 ## Question: 
 
-* is this a consequence of the optimistic locking and i have to live with that? did i missed a puzzle when creating the threads ? maybe some weird .. configurate my hibernate session ... thing ? is possible to add layouts concurrently ? 
+* is this a consequence of the optimistic locking and i have to live with that? did i missed a puzzle when creating the threads ? maybe some weird .. configurate my hibernate session ... thing ? is it possible to add layouts concurrently ? 
   
  SO Entry Reference : https://stackoverflow.com/questions/50528192/concurrent-api-layoutlocalservice-addlayout-throws-staleobjectstateexception-in
 
