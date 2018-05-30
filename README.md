@@ -1,12 +1,12 @@
 # liferay-layout-issue
 
- When trying to concurrently add layouts in liferay dxp a StaleObjectExceoption occurs: 
+ When trying to concurrently add layouts in liferay dxp a StaleObjectException occurs: 
+ 
+_This repository contains a maven osgi portlet to reproduce the exception._
  
  env: DXP SP6 , Fixpack-de 40
  
 The context is a parallel import of liferay layouts through a liferay portlet; build with spring/osgi. When executing it in Liferay dxp, the api call to add a Layout throws a StaleObjectStateException. 
-
-_This repository contains a maven osgi portlet to reproduce the exception._
 
 This exception occurs when the api internally does an update on the corresponding LayoutSet (updating the PageCount for that Group, where the layout has been added to, just a single moment ago).
 
