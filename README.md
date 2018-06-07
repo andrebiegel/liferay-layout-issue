@@ -4,7 +4,7 @@
  
 _This repository contains a maven osgi portlet to reproduce the exception._
  
- env: DXP SP6 , Fixpack-de 40
+ env: DXP SP6,SP7; Fixpack-de 40,48
  
 The context is a parallel import of liferay layouts through a liferay portlet; build with spring/osgi. When executing it in Liferay dxp, the api call to add a Layout throws a StaleObjectStateException. 
 
